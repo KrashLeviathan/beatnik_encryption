@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Beatnik Encryption</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="beatnik_encryption.js"></script>
+    <script src="http://www.club.cc.cmu.edu/~rjmccall/beatnik.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Beatnik Encryption</h1>
+
+      <p>Write something here to talk about the project...</p>
+
+      
+      <h2>Encoding</h2>
+      <p>Enter the string you want to encrypt in the textbox below,
+	and press <b>Stir my soul!</b></p>
+
+      <form id="encoder-form">
+	<textarea rows="8" cols="50" name="encoder-text" form="encoder-form">Enter text here...</textarea><br>
+	<input type="submit" value="Stir my soul!">
+      </form>
+
+      <h2>Encoder Results</h2>
+      <div id="encoder-results"></div>
+
+      
+      <h2>Decoding</h2>
+      <p>Enter the string you want to decode in the textbox below,
+	and press <b>Interpret the tortured genius!</b> Interpreter
+        created by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
+	  Carnegie Mellon Computer Club</a>.</p>
+
+      <form id="decoder-form">
+	<textarea rows="8" cols="50" name="decoder-text" form="decoder-form">Enter beatnik poem here...</textarea><br>
+	<input type="submit" value="Interpret the tortured genius!">
+      </form>
+
+      <h2>Decoder Results</h2>
+      <div id="decoder-results"></div>
+
+      <footer>
+	Authors:<br>
+	Nathan Karasch (<a href="http://krashdev.com/" target="_blank">krashdev.com</a>)<br>
+	Charlie Steenhagen (<a href="http://www.stonestreetsoftware.com/" target="_blank">www.stonestreetsoftware.com</a>)
+      </footer>
+      
+    </div>
+  </body>
+</html>

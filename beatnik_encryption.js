@@ -29,9 +29,6 @@ function getWord(score) {
     return word + getPunctuation() + getSpaceOrNewline();
 }
 
-// MAP SCORES TO FUNCTIONS
-
-
 // Maps function "names" to the given score for that function
 var functionToScore = {
     push: 5,
@@ -58,7 +55,7 @@ var functionToScore = {
  * @returns {string}
  */
 function wordsForFunction(func, scoreArg) {
-    if (nextWord) {
+    if (scoreArg) {
         return getWord(functionToScore[func]) + getWord(scoreArg);
     } else {
         return getWord(functionToScore[func]);
@@ -68,25 +65,21 @@ function wordsForFunction(func, scoreArg) {
 // Returns a function that can be called with an argument (when appropriate). The function
 // returns a String of the word output for that function.
 var bn = {
-    push: function(scoreArg) { return wordsForFunction(push, scoreArg)},
-    pop: function() { return wordsForFunction(pop, null)},
-    addTopTwo: function() { return wordsForFunction(addTopTwo, null)},
-    getInputFromUser: function() { return wordsForFunction(getInputFromUser, null)},
-    popAndPrintChar: function() { return wordsForFunction(popAndPrintChar, null)},
-    subtractTopFromNextTop: function() { return wordsForFunction(subtractTopFromNextTop, null)},
-    swapTopTwoValues: function() { return wordsForFunction(swapTopTwoValues, null)},
-    duplicateTopValue: function() { return wordsForFunction(duplicateTopValue, null)},
-    skipAheadIfZero: function(scoreArg) { return wordsForFunction(skipAheadIfZero, scoreArg)},
-    skipAheadIfNotZero: function(scoreArg) { return wordsForFunction(skipAheadIfNotZero, scoreArg)},
-    skipBackIfZero: function(scoreArg) { return wordsForFunction(skipBackIfZero, scoreArg)},
-    skipBackIfNotZero: function(scoreArg) { return wordsForFunction(skipBackIfNotZero, scoreArg)},
-    stopProgram: function() { return wordsForFunction(stopProgram, null)}
+    push: function(scoreArg) { return wordsForFunction("push", scoreArg)},
+    pop: function() { return wordsForFunction("pop", null)},
+    addTopTwo: function() { return wordsForFunction("addTopTwo", null)},
+    getInputFromUser: function() { return wordsForFunction("getInputFromUser", null)},
+    popAndPrintChar: function() { return wordsForFunction("popAndPrintChar", null)},
+    subtractTopFromNextTop: function() { return wordsForFunction("subtractTopFromNextTop", null)},
+    swapTopTwoValues: function() { return wordsForFunction("swapTopTwoValues", null)},
+    duplicateTopValue: function() { return wordsForFunction("duplicateTopValue", null)},
+    skipAheadIfZero: function(scoreArg) { return wordsForFunction("skipAheadIfZero", scoreArg)},
+    skipAheadIfNotZero: function(scoreArg) { return wordsForFunction("skipAheadIfNotZero", scoreArg)},
+    skipBackIfZero: function(scoreArg) { return wordsForFunction("skipBackIfZero", scoreArg)},
+    skipBackIfNotZero: function(scoreArg) { return wordsForFunction("skipBackIfNotZero", scoreArg)},
+    stopProgram: function() { return wordsForFunction("stopProgram", null)}
 };
 
-// TODO: For testing purposes only!
-$('encoder-results').text = bn.push(10) + bn.pop() + bn.addTopTwo() + bn.getInputFromUser() + bn.popAndPrintChar() +
-        bn.subtractTopFromNextTop() + bn.swapTopTwoValues() + bn.duplicateTopValue() + bn.skipAheadIfZero(10) +
-        bn.skipAheadIfNotZero(10) + bn.skipBackIfZero(10) + bn.skipBackIfNotZero(10) + bn.stopProgram();
 
 
 
@@ -101,3 +94,10 @@ $('encoder-results').text = bn.push(10) + bn.pop() + bn.addTopTwo() + bn.getInpu
 // TODO: Run each char in the array through the beatnikify() method, appending the output to a writer stream
 // TODO: Write the value of the writer stream to a string
 // TODO: Output the string to the html page
+
+$(document).ready(function() {
+    // TODO: For testing purposes only! Remove once everything is actually written.
+    $('#encoder-results').html("<p>" + bn.push(10) + bn.pop() + bn.addTopTwo() + bn.getInputFromUser() + bn.popAndPrintChar() +
+            bn.subtractTopFromNextTop() + bn.swapTopTwoValues() + bn.duplicateTopValue() + bn.skipAheadIfZero(10) +
+            bn.skipAheadIfNotZero(10) + bn.skipBackIfZero(10) + bn.skipBackIfNotZero(10) + bn.stopProgram() + "</p>");
+});

@@ -3,6 +3,66 @@
 // TODO: Find a dictionary word API
 // TODO: Use word API to get N words for each possible word score needed, and populate to score:word[] map
 
+// Maps to A-Z
+var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
+
+// This map should be filled in by the word API
+var scoreWordMap = {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+    10: [],
+    11: [],
+    12: [],
+    13: [],
+    14: [],
+    15: [],
+    16: [],
+    17: [],
+    18: [],
+    19: [],
+    20: [],
+    21: [],
+    22: [],
+    23: [],
+    24: [],
+    25: []
+};
+
+var scoreWordMapForTesting = {
+    1:  ['a'],
+    2:  ['aa'],
+    3:  ['aaa'],
+    4:  ['aaaa'],
+    5:  ['aaaaa'],
+    6:  ['aaaaaa'],
+    7:  ['aaaaaaa'],
+    8:  ['aaaaaaaa'],
+    9:  ['aaaaaaaaa'],
+    10: ['aaaaaaaaaa'],
+    11: ['aaaaaaaaaaa'],
+    12: ['aaaaaaaaaaaa'],
+    13: ['aaaaaaaaaaaaa'],
+    14: ['aaaaaaaaaaaaaa'],
+    15: ['aaaaaaaaaaaaaaa'],
+    16: ['aaaaaaaaaaaaaaaa'],
+    17: ['aaaaaaaaaaaaaaaaa'],
+    18: ['aaaaaaaaaaaaaaaaaa'],
+    19: ['aaaaaaaaaaaaaaaaaaa'],
+    20: ['aaaaaaaaaaaaaaaaaaaa'],
+    21: ['aaaaaaaaaaaaaaaaaaaaa'],
+    22: ['aaaaaaaaaaaaaaaaaaaaaa'],
+    23: ['aaaaaaaaaaaaaaaaaaaaaaa'],
+    24: ['aaaaaaaaaaaaaaaaaaaaaaaa'],
+    25: ['aaaaaaaaaaaaaaaaaaaaaaaaa']
+};
+
 // Returns, at random, either a punctuation mark or an empty string.
 // STRETCH: Tinker with probabilities to make the poem more "artsy".
 //   Ex: Empty string 30% of the time, Comma 20% of the time, Period 10% of the time... etc.
@@ -19,13 +79,10 @@ function getSpaceOrNewline() {
     return " ";
 }
 
-/**
- * Returns a word at random from the list of words that have the given score.
- * @param score
- */
+// Returns a word at random from the list of words that have the given score.
 function getWord(score) {
     // TODO
-    var word = "word";
+    var word = scoreWordMapForTesting[score];
     return word + getPunctuation() + getSpaceOrNewline();
 }
 
@@ -46,14 +103,9 @@ var functionToScore = {
     stopProgram: 17
 };
 
-/**
- * Returns a String containing one or two words. The first word corresponds to the
- * beatnik function being called. The second word corresponds to the argument (if
- * the function takes one)
- * @param func
- * @param scoreArg
- * @returns {string}
- */
+// Returns a String containing one or two words. The first word corresponds to the
+// beatnik function being called. The second word corresponds to the argument (if
+// the function takes one)
 function wordsForFunction(func, scoreArg) {
     if (scoreArg) {
         return getWord(functionToScore[func]) + getWord(scoreArg);

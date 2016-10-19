@@ -3,12 +3,19 @@
 // TODO: Find a dictionary word API
 // TODO: Use word API to get N words for each possible word score needed, and populate to score:word[] map
 
+// Returns a random integer between min (included) and max (excluded)
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 // Maps to A-Z
 var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
 
 // This map should be filled in by the word API
 var scoreWordMap = {
-    1: [],
+    1: ['a'],
     2: [],
     3: [],
     4: [],
@@ -32,7 +39,8 @@ var scoreWordMap = {
     22: [],
     23: [],
     24: [],
-    25: []
+    25: [],
+    maxScore: 25
 };
 
 var scoreWordMapForTesting = {
@@ -116,6 +124,7 @@ function wordsForFunction(func, scoreArg) {
 
 // Returns a function that can be called with an argument (when appropriate). The function
 // returns a String of the word output for that function.
+// TODO: Consider deleting unused methods after everything is finished?
 var bn = {
     push: function(scoreArg) { return wordsForFunction("push", scoreArg)},
     pop: function() { return wordsForFunction("pop", null)},
@@ -132,24 +141,65 @@ var bn = {
     stopProgram: function() { return wordsForFunction("stopProgram", null)}
 };
 
+// Takes any string and returns a beatnik program (string) that prints that string.
+function beatnikify(str) {
+    var stringArray = [];
+    for (var i = 0; i < str.length; i++) {
+        stringArray.push(pushCharValueToStack(str.charCodeAt(i)));
+    }
+    for (var j = 0; j < str.length; j++) {
+        // TODO: This can be made more interesting later if we have time instead of popping them all at the end.
+        stringArray.push(bn.popAndPrintChar());
+    }
 
+    return stringArray.join("");
+}
 
+// Returns a beatnik program to add the value of the charCode to the top of the stack.
+function pushCharValueToStack(charCode) {
+    var stringArray = [];
+    var valuesToAdd = splitCharValue(charCode);
+    stringArray.push(bn.push(valuesToAdd[0]));
+    for (var i = 1; i < valuesToAdd.length; i++) {
+        stringArray.push(bn.push(valuesToAdd[i]));
+        stringArray.push(bn.addTopTwo());
+    }
+    return stringArray.join("");
+}
 
-// WRITE BEATNIKIFY ALGORITHM
+// Returns an array of ints that add up to the value. If value is <=25, then it just returns the value in
+// an array by itself. Otherwise, it splits the value.
+function splitCharValue(value) {
+    if (value > scoreWordMap.maxScore) {
+        var values = [];
+        while (value > scoreWordMap.maxScore) {
+            console.log(value);
+            var subtracted = getRandomInt(1, scoreWordMap.maxScore + 1);
+            values.push(subtracted);
+            value -= subtracted;
+        }
+        console.log("Exiting loop");
+        return values;
+    } else if (value < 1) {
+        throw new Error("Value passed to splitCharValue() cannot be less that 1!");
+    } else {
+        return [value];
+    }
+}
 
-// TODO: Create method beatnikify() using algorithm that takes a char and produces the Beatnik program to print that char
-
-// INTEGRATION
-
-// TODO: Read html input to var
-// TODO: Parse each char from the input to a number value in an array of ints (scores corresponding to that character)
-// TODO: Run each char in the array through the beatnikify() method, appending the output to a writer stream
-// TODO: Write the value of the writer stream to a string
-// TODO: Output the string to the html page
 
 $(document).ready(function() {
-    // TODO: For testing purposes only! Remove once everything is actually written.
-    $('#encoder-results').html("<p>" + bn.push(10) + bn.pop() + bn.addTopTwo() + bn.getInputFromUser() + bn.popAndPrintChar() +
-            bn.subtractTopFromNextTop() + bn.swapTopTwoValues() + bn.duplicateTopValue() + bn.skipAheadIfZero(10) +
-            bn.skipAheadIfNotZero(10) + bn.skipBackIfZero(10) + bn.skipBackIfNotZero(10) + bn.stopProgram() + "</p>");
+    $('#encoder-form').submit(function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        var str = $('#encoder-text').val();
+        var encrypted = beatnikify(str);
+        $('#encoder-results').html('<p>' + encrypted + '</p>');
+    });
+
+    $('#decoder-form').submit(function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+    });
 });

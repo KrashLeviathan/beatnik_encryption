@@ -10,6 +10,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+
+
+
 // Maps to A-Z
 var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
 
@@ -71,28 +74,90 @@ var scoreWordMapForTesting = {
     25: ['aaaaaaaaaaaaaaaaaaaaaaaaa']
 };
 
-// Returns, at random, either a punctuation mark or an empty string.
-// STRETCH: Tinker with probabilities to make the poem more "artsy".
-//   Ex: Empty string 30% of the time, Comma 20% of the time, Period 10% of the time... etc.
-function getPunctuation() {
-    // TODO
-    return ".";
-}
-
-// Returns, at random, either a space, several spaces, a newline, or several newlines.
-// STRETCH: Tinker with probabilities to make the poem more "artsy".
-//   Ex: single space 50% of the time, single newline 30% of the time, multiple spaces... etc.
-function getSpaceOrNewline() {
-    // TODO
-    return " ";
-}
+var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    // TODO
-    var word = scoreWordMapForTesting[score];
-    return word + getPunctuation() + getSpaceOrNewline();
+    var word = scoreWordMapForTesting[score][0];     // FIXME
+
+    if (captializeNextWord) {
+        word = word.charAt(0).toUpperCase() + word.substring(1);
+    }
+
+    var punctuation = getPunctuation();
+    var whitespace = getWhitespace();
+    captializeNextWord = (whitespace == "<br><br>" || punctuation != "" && punctuation != "," && punctuation != " --");
+
+    return word + punctuation + whitespace;
 }
+
+
+
+
+var distribution = {
+    percentages: {},
+    defaultValue: "",
+    boundaryValues: {},
+    initialized: false,
+    get: function() {
+        if (!this.initialized) {
+            var maxBoundaryValue = 0;
+            for (var pKey in this.percentages) {
+                if (this.percentages.hasOwnProperty(pKey)) {
+                    maxBoundaryValue += parseInt(pKey);
+                    this.boundaryValues[maxBoundaryValue] = this.percentages[pKey];
+                }
+            }
+            if (maxBoundaryValue > 100) {
+                throw new Error("Cannot have more than 100% in the map of percentages!");
+            }
+            this.initialized = true;
+        }
+        var rand = Math.random() * 100;
+        for (var bKey in this.boundaryValues) {
+            if (this.boundaryValues.hasOwnProperty(bKey) && rand < parseInt(bKey)) {
+                return this.boundaryValues[bKey];
+            }
+        }
+        return this.defaultValue;
+    }
+};
+
+var punctuation = {
+    percentages: {
+        15: ",",
+        10: ".",
+        6: "!",
+        7: "?",
+        1: " --",
+        3: "..."
+    },
+    defaultValue: "",
+    boundaryValues: {},
+    initialized: false
+};
+// Returns, at random, either a punctuation mark or an empty string.
+var getPunctuation = distribution.get.bind(punctuation);
+
+var whitespace = {
+    percentages: {
+        25: "<br>",
+        6: "<br><br>",
+        5: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+        4: "<br>&nbsp;&nbsp;&nbsp;",
+        3: "<br>&nbsp;&nbsp;",
+        2: "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+        1: " #"
+    },
+    defaultValue: " ",
+    boundaryValues: {},
+    initialized: false
+};
+// Returns, at random, either a space, several spaces, a newline, or several newlines.
+var getWhitespace = distribution.get.bind(whitespace);
+
+
+
 
 // Maps function "names" to the given score for that function
 var functionToScore = {
@@ -141,6 +206,9 @@ var bn = {
     stopProgram: function() { return wordsForFunction("stopProgram", null)}
 };
 
+
+
+
 // Takes any string and returns a beatnik program (string) that prints that string.
 function beatnikify(str) {
     var stringArray = [];
@@ -173,12 +241,10 @@ function splitCharValue(value) {
     if (value > scoreWordMap.maxScore) {
         var values = [];
         while (value > scoreWordMap.maxScore) {
-            console.log(value);
             var subtracted = getRandomInt(1, scoreWordMap.maxScore + 1);
             values.push(subtracted);
             value -= subtracted;
         }
-        console.log("Exiting loop");
         return values;
     } else if (value < 1) {
         throw new Error("Value passed to splitCharValue() cannot be less that 1!");
@@ -186,6 +252,8 @@ function splitCharValue(value) {
         return [value];
     }
 }
+
+
 
 
 $(document).ready(function() {

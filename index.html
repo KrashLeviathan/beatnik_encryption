@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Beatnik Encryption</title>
+    <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet">
+    <link rel="stylesheet" href="reset.css" type="text/css">
     <link rel="stylesheet" href="styles.css" type="text/css">
     <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>-->
     <script src="js/vendor/jquery.js"></script>
@@ -14,8 +16,20 @@
 <div id="container">
     <h1>Beatnik Encryption</h1>
 
-    <p>Write something here to talk about the project...</p>
+    <div class="left-of-image">
+    <p>The goal of this project was to write a JavaScript function that takes
+        a string and outputs a <a href="http://cliffle.com/esoterica/beatnik.html" target="_blank">Beatnik</a>
+        program that prints that string.</p>
 
+    <p>To encrypt a file/message/etc for transmission, you can base64 encode
+        it, pass it through beatnik_encryption, and send an avante-garde poem
+        over the wire! The receiver would then run it through the
+        <a href="http://www.club.cc.cmu.edu/~rjmccall/beatnik.js" target="_blank">Beatnik Interpretter</a>,
+        base64 decode the resulting string, and <i>presto!</i> -- you're back to the original
+        message!</p>
+        </div>
+    <img src="images/tux-150059_960_720.png" alt="beatniks">
+    <div style="clear: both"></div>
 
     <h2>Encoding</h2>
     <p>Enter the string you want to encrypt in the textbox below,
@@ -23,7 +37,8 @@
 
     <form id="encoder-form">
         <label>
-            <textarea rows="8" cols="50" name="encoder-text" form="encoder-form" id="encoder-text">Enter text here...</textarea>
+            <textarea rows="8" cols="50" name="encoder-text" form="encoder-form"
+                      id="encoder-text">Enter text here...</textarea>
         </label><br>
         <input type="submit" value="Stir my soul!">
     </form>
@@ -49,7 +64,7 @@
     <div id="decoder-results"></div>
 
     <footer>
-        Authors:<br>
+        <h3>Authors:</h3>
         Nathan Karasch (<a href="http://krashdev.com/" target="_blank">krashdev.com</a>)<br>
         Charlie Steenhagen (<a href="http://www.stonestreetsoftware.com/"
                                target="_blank">www.stonestreetsoftware.com</a>)

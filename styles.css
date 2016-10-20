@@ -1,0 +1,108 @@
+html {
+    background-color: #868572;
+    color: #0E090E;
+}
+
+body, input {
+    font-family: 'Reenie Beanie', cursive;
+}
+
+body {
+    font-size: 1.3em;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+#container {
+    width: 700px;
+    margin: 1em auto;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    border-bottom: solid 1px #0E090E;
+    padding-bottom: 0.25em;
+}
+
+h2 {
+    font-size: 2em;
+    margin: 1em 0 0.25em 0;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+textarea, #encoder-results, #decoder-results {
+    display: block;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    width: 100%;
+    overflow-y: scroll;
+    word-break: break-all;
+    border-top: solid 1px #0E090E;
+    border-bottom: solid 1px #0E090E;
+    border-left: none;
+    border-right: none;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    color: white;
+}
+
+textarea {
+    height: 25vh;
+    background-color: #C3282D;
+}
+
+#encoder-results, #decoder-results {
+    height: 50vh;
+    background-color: #BF5A22;
+}
+
+input[type="submit"] {
+    display: block;
+    margin: 0 auto;
+    font-size: 1.3em;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: white;
+    background-color: #51BFA4;
+    border: 1px solid #0E090E;
+    border-left-width: 1em;
+    border-right-width: 1em;
+}
+
+input[type="submit"]:hover {
+    background-color: #46967f;
+    cursor: pointer;
+}
+
+footer {
+    border-top: solid 1px #0E090E;
+    padding-top: 1em;
+    margin-top: 3em;
+    text-align: center;
+}
+
+a {
+    color: #C3282D;
+}
+
+a:hover {
+    color: #BF5A22;
+}
+
+.left-of-image {
+    float: left;
+    width: 70%;
+}
+
+img {
+    float: right;
+    width: 30%;
+}

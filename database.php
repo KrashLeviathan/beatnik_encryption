@@ -34,7 +34,7 @@ $letters = array(
     'y' => 4,
     'z' => 10
 );
-//TODO get this to connect or make a db that is CAN connect to. 
+//TODO get this to connect or make a db that is CAN connect to.
 $conn = mysqli_connect('127.0.0.1','new_user','new_userpw','beatnik_scores','3006');
 
 $action = $_GET['action'];

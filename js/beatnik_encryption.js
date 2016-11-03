@@ -10,15 +10,80 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function get_words_api(){
+    $.ajax({
+        url: 'http://www.randomtext.me/api/gibberish/p-5/100',
+        success: function(json){
+            var p = json.text_out;
+            var words = $(p).text();
+            var words_array = words.split(' ');
+            var words1 = [];
+            var words2 = [];
+            var words3 = [];
+            var words4 = [];
+            for(var i =0;i<100;i++){
+                if(i<25){
+                    words1.push(words_array[i]);
+                }else if(i<50){
+                    words2.push(words_array[i]);
+                }else if(i<75){
+                    words3.push(words_array[i]);
+                }else{
+                    words4.push(words_array[i]);
+                }
+            }
+            $.getJSON('/database.php?action=add_words&words='+words1.toString(), function(php_json){
+                // console.log(php_json);
+                $(php_json.words).each(function(){
+                    if(this.score <= 25){
+                        scoreWordMap[this.score].push(this.word);
+                    }
+
+                });
+                console.log(scoreWordMap);
+            });
+            $.getJSON('/database.php?action=add_words&words='+words2.toString(), function(php_json){
+                // console.log(php_json);
+                $(php_json.words).each(function(){
+                    if(this.score <= 25){
+                        scoreWordMap[this.score].push(this.word);
+                    }
+
+                });
+                console.log(scoreWordMap);
+            });
+            $.getJSON('/database.php?action=add_words&words='+words3.toString(), function(php_json){
+                // console.log(php_json);
+                $(php_json.words).each(function(){
+                    if(this.score <= 25){
+                        scoreWordMap[this.score].push(this.word);
+                    }
+
+                });
+                console.log(scoreWordMap);
+            });
+            $.getJSON('/database.php?action=add_words&words='+words4.toString(), function(php_json){
+                // console.log(php_json);
+                $(php_json.words).each(function(){
+                    if(this.score <= 25){
+                        scoreWordMap[this.score].push(this.word);
+                    }
+
+                });
+                console.log(scoreWordMap);
+            });
 
 
+        }
+    });
+}
 
 // Maps to A-Z
 var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
 
 // This map should be filled in by the word API
 var scoreWordMap = {
-    1: ['a'],
+    1: [],
     2: [],
     3: [],
     4: [],
@@ -78,7 +143,7 @@ var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    var word = scoreWordMapForTesting[score][0];     // FIXME
+    var word = scoreWordMap[score][Math.floor(Math.random() * scoreWordMap[score].length -1) + 1];     // FIXME
 
     if (captializeNextWord) {
         word = word.charAt(0).toUpperCase() + word.substring(1);

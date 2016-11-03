@@ -35,19 +35,20 @@ $letters = array(
     'z' => 10
 );
 //TODO get this to connect or make a db that is CAN connect to.
-$conn = mysqli_connect('127.0.0.1','new_user','new_userpw','beatnik_scores','3006');
+$conn = mysqli_connect('127.0.0.1','new_user','new_userpw','beatnik_scores','3306');
+
 
 $action = $_GET['action'];
+
+//+r4ztSyR3qkj
 
 if($action != ''){
     switch($action){
         case 'add_words':
             $words = explode(',',$_GET['words']);
-            $to_return = array();
             foreach($words as $curr_word){
                 $scrabble = scrabble_score($curr_word);
                 $this_word = array('word' => $curr_word, 'score' => $scrabble);
-                array_push($to_return, $this_word);
                 $sql = "SELECT * FROM words WHERE word = '".$curr_word."'";
                 $query = mysqli_query($conn,$sql);
                 if(mysqli_num_rows($query) == 0){
@@ -61,6 +62,14 @@ if($action != ''){
                     }
                 }
             }
+            $sql = "SELECT * FROM words";
+            $query = mysqli_query($conn, $sql);
+            $to_return = array();
+            while($result = mysqli_fetch_assoc($query)){
+                $word = array('word' => $result['word'], 'score' => $result['score']);
+                array_push($to_return, $word);
+            }
+
             $json = array('code' => 200, 'words' => $to_return);
             echo json_encode($json);
             exit;

@@ -59,13 +59,13 @@ function get_words_api(){
             var words4 = [];
             for(var i =0;i<100;i++){
                 if(i<25){
-                    words1.push(words_array[i]);
+                    words1.push(words_array[i].toLowerCase());
                 }else if(i<50){
-                    words2.push(words_array[i]);
+                    words2.push(words_array[i].toLowerCase());
                 }else if(i<75){
-                    words3.push(words_array[i]);
+                    words3.push(words_array[i].toLowerCase());
                 }else{
-                    words4.push(words_array[i]);
+                    words4.push(words_array[i].toLowerCase());
                 }
             }
             addWordsToDB(words1);

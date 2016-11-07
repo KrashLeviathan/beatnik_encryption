@@ -1,8 +1,5 @@
 // COLLECT WORDS
 
-// TODO: Find a dictionary word API
-// TODO: Use word API to get N words for each possible word score needed, and populate to score:word[] map
-
 // Returns a random integer between min (included) and max (excluded)
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -10,6 +7,23 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+// Adds words to our own database with the appropriate scrabble score for each word.
+function addWordsToDB(wordsArray) {
+    $.getJSON('/database.php?action=add_words&words='+wordsArray.toString(), function(php_json){
+        // console.log(php_json);
+        $(php_json.words).each(function(){
+            if(this.score <= 25){
+                scoreWordMap[this.score].push(this.word);
+            }
+
+        });
+        console.log(scoreWordMap);
+    });
+}
+
+// Called at the bottom of index.html when the page loads. This fetches random words from
+// the randomtext.me api to populate our own database. The more times the page is loaded,
+// the more verbose the encrypter becomes!
 function get_words_api(){
     $.ajax({
         url: 'http://www.randomtext.me/api/gibberish/p-5/100',
@@ -32,48 +46,10 @@ function get_words_api(){
                     words4.push(words_array[i]);
                 }
             }
-            $.getJSON('/database.php?action=add_words&words='+words1.toString(), function(php_json){
-                // console.log(php_json);
-                $(php_json.words).each(function(){
-                    if(this.score <= 25){
-                        scoreWordMap[this.score].push(this.word);
-                    }
-
-                });
-                console.log(scoreWordMap);
-            });
-            $.getJSON('/database.php?action=add_words&words='+words2.toString(), function(php_json){
-                // console.log(php_json);
-                $(php_json.words).each(function(){
-                    if(this.score <= 25){
-                        scoreWordMap[this.score].push(this.word);
-                    }
-
-                });
-                console.log(scoreWordMap);
-            });
-            $.getJSON('/database.php?action=add_words&words='+words3.toString(), function(php_json){
-                // console.log(php_json);
-                $(php_json.words).each(function(){
-                    if(this.score <= 25){
-                        scoreWordMap[this.score].push(this.word);
-                    }
-
-                });
-                console.log(scoreWordMap);
-            });
-            $.getJSON('/database.php?action=add_words&words='+words4.toString(), function(php_json){
-                // console.log(php_json);
-                $(php_json.words).each(function(){
-                    if(this.score <= 25){
-                        scoreWordMap[this.score].push(this.word);
-                    }
-
-                });
-                console.log(scoreWordMap);
-            });
-
-
+            addWordsToDB(words1);
+            addWordsToDB(words2);
+            addWordsToDB(words3);
+            addWordsToDB(words4);
         }
     });
 }
@@ -159,6 +135,12 @@ function getWord(score) {
 
 
 
+// The distribution object allows you to get random values from a set based on their
+// distribution (over 100). The `get` method is bound to the punctuation and whitespace
+// objects below. Each key in the `percentages` map is the int percentage, with the value
+// being the element with that distribution. The keys do not add up to 100, however. That's
+// because any remaining percentage after subtracting all keys from 100 is attributed to
+// the `defaultValue`.
 var distribution = {
     percentages: {},
     defaultValue: "",
@@ -188,6 +170,7 @@ var distribution = {
     }
 };
 
+// Punctuation to be distributed at random throughout the encrypted text.
 var punctuation = {
     percentages: {
         15: ",",
@@ -204,6 +187,7 @@ var punctuation = {
 // Returns, at random, either a punctuation mark or an empty string.
 var getPunctuation = distribution.get.bind(punctuation);
 
+// Whitespace to be distributed at random throughout the encrypted text.
 var whitespace = {
     percentages: {
         25: "<br>",

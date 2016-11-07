@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS words (
+  id INT(10) NOT NULL AUTO_INCREMENT,
+  word VARCHAR(255) NOT NULL,
+  score INT(10) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT word_unique UNIQUE (word)
+);

@@ -4,15 +4,16 @@ html {
 }
 
 body, input {
-    font-family: 'Reenie Beanie', cursive;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 body {
-    font-size: 1.3em;
+    font-size: 1em;
 }
 
 p {
     margin-bottom: 1em;
+    line-height: 1.25em;
 }
 
 #container {
@@ -21,7 +22,7 @@ p {
 }
 
 h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: 700;
     margin-bottom: 0.5em;
     border-bottom: solid 1px #0E090E;
@@ -29,12 +30,12 @@ h1 {
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 1.5em;
     margin: 1em 0 0.25em 0;
 }
 
 h3 {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 textarea, #encoder-results, #decoder-results {
@@ -65,10 +66,18 @@ textarea {
     background-color: #BF5A22;
 }
 
+#encoder-text, #decoder-results {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+#decoder-text, #encoder-results {
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
 input[type="submit"] {
     display: block;
     margin: 0 auto;
-    font-size: 1.3em;
+    font-size: 1em;
     letter-spacing: 0.07em;
     font-weight: 700;
     color: white;
@@ -88,6 +97,10 @@ footer {
     padding-top: 1em;
     margin-top: 3em;
     text-align: center;
+}
+
+footer p {
+    margin: 0.25em auto;
 }
 
 a {

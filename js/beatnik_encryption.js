@@ -52,7 +52,7 @@ function get_words_api(){
         success: function(json){
             var p = json.text_out;
             var words = $(p).text();
-            var words_array = words.split(' ');
+            var words_array = words.replace('.', '').split(' ');
             var words1 = [];
             var words2 = [];
             var words3 = [];

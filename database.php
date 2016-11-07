@@ -49,23 +49,24 @@ if($action != ''){
     switch($action){
         case 'add_words':
             $words = explode(',',$_GET['words']);
+            $words_added = 0;
             foreach($words as $curr_word){
                 $scrabble = scrabble_score($curr_word);
-                $this_word = array('word' => $curr_word, 'score' => $scrabble);
-                $sql = "SELECT * FROM words WHERE word = '".$curr_word."'";
+                $scrabble = scrabble_score($curr_word);
+                $sql = "INSERT INTO words (word, score) VALUES ('".$curr_word."', ".$scrabble.")";
                 $query = mysqli_query($conn,$sql);
-                if(mysqli_num_rows($query) == 0){
-                    $scrabble = scrabble_score($curr_word);
-                    $sql = "INSERT INTO words (word, score) VALUES ('".$curr_word."', ".$scrabble.")";
-                    $query = mysqli_query($conn,$sql);
-                    if(!$query){
-                        $json = array('code' => 404, 'error' => mysqli_error($conn));
-                        echo json_encode($json);
-                        exit;
-                    }
+                if($query){
+                    $words_added += 1;
                 }
             }
-            $sql = "SELECT * FROM words";
+
+            $json = array('code' => 200, 'words_added' => $words_added);
+            echo json_encode($json);
+            exit;
+            break;
+
+        case 'get_words':
+            $sql = "SELECT word, score FROM words";
             $query = mysqli_query($conn, $sql);
             $to_return = array();
             while($result = mysqli_fetch_assoc($query)){
@@ -76,9 +77,6 @@ if($action != ''){
             $json = array('code' => 200, 'words' => $to_return);
             echo json_encode($json);
             exit;
-            break;
-        case 'get_words':
-
             break;
     }
 }

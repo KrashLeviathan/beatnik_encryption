@@ -106,3 +106,17 @@ img {
     float: right;
     width: 30%;
 }
+
+#loading-words {
+    background-color: #51BFA4;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 5px;
+    padding: 0.5em;
+    border-top: solid 1px #0E090E;
+    position: fixed;
+    bottom: 0;
+    left: 50vw;
+    width: 250px;
+    margin-left: -125px;
+}

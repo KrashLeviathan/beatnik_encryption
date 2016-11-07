@@ -1,5 +1,7 @@
 // COLLECT WORDS
 
+var wordsLoaded = false;
+
 // Returns a random integer between min (included) and max (excluded)
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -10,14 +12,30 @@ function getRandomInt(min, max) {
 // Adds words to our own database with the appropriate scrabble score for each word.
 function addWordsToDB(wordsArray) {
     $.getJSON('/database.php?action=add_words&words='+wordsArray.toString(), function(php_json){
-        // console.log(php_json);
-        $(php_json.words).each(function(){
-            if(this.score <= 25){
-                scoreWordMap[this.score].push(this.word);
-            }
+        if (php_json && php_json.words_added != 0) {
+            console.log("Learned " + php_json.words_added + " new words!");
+        }
+    });
+}
 
+function getWordsFromDB() {
+    $.getJSON('/database.php?action=get_words', function(php_json){
+        $('#loading-words').remove();
+        var badResults = [];
+        $(php_json.words).each(function(){
+            if (this.score > scoreWordMap.maxScore) {
+                badResults.push(this);
+            } else {
+                scoreWordMap.scores[this.score].push(this.word);
+            }
         });
-        console.log(scoreWordMap);
+        console.log("Total number of words being used: " + scoreWordMap.totalCount());
+        // TODO: Remove the log statements below this comment when this is all completed
+        console.log("scoreWordMap.scores:");
+        console.log(scoreWordMap.scores);
+        console.log("Bad Results (score > " + scoreWordMap.maxScore + "): " + badResults.length);
+        console.log(badResults);
+        wordsLoaded = true;
     });
 }
 
@@ -25,6 +43,10 @@ function addWordsToDB(wordsArray) {
 // the randomtext.me api to populate our own database. The more times the page is loaded,
 // the more verbose the encrypter becomes!
 function get_words_api(){
+    // Get all words that have already been entered in the DB
+    getWordsFromDB();
+
+    // Add more words to the DB to make the program more poetic in the future.
     $.ajax({
         url: 'http://www.randomtext.me/api/gibberish/p-5/100',
         success: function(json){
@@ -59,67 +81,80 @@ var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
 
 // This map should be filled in by the word API
 var scoreWordMap = {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: [],
-    10: [],
-    11: [],
-    12: [],
-    13: [],
-    14: [],
-    15: [],
-    16: [],
-    17: [],
-    18: [],
-    19: [],
-    20: [],
-    21: [],
-    22: [],
-    23: [],
-    24: [],
-    25: [],
-    maxScore: 25
+    scores: {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+        10: [],
+        11: [],
+        12: [],
+        13: [],
+        14: [],
+        15: [],
+        16: [],
+        17: [],
+        18: [],
+        19: [],
+        20: [],
+        21: [],
+        22: [],
+        23: [],
+        24: [],
+        25: []
+    },
+    maxScore: 25,
+    totalCount: function() {
+        var sum = 0;
+        for (var score in this.scores) {
+            if (this.scores.hasOwnProperty(score)) {
+                sum += this.scores[score].length;
+            }
+        }
+        return sum;
+    }
 };
 
 var scoreWordMapForTesting = {
-    1:  ['a'],
-    2:  ['aa'],
-    3:  ['aaa'],
-    4:  ['aaaa'],
-    5:  ['aaaaa'],
-    6:  ['aaaaaa'],
-    7:  ['aaaaaaa'],
-    8:  ['aaaaaaaa'],
-    9:  ['aaaaaaaaa'],
-    10: ['aaaaaaaaaa'],
-    11: ['aaaaaaaaaaa'],
-    12: ['aaaaaaaaaaaa'],
-    13: ['aaaaaaaaaaaaa'],
-    14: ['aaaaaaaaaaaaaa'],
-    15: ['aaaaaaaaaaaaaaa'],
-    16: ['aaaaaaaaaaaaaaaa'],
-    17: ['aaaaaaaaaaaaaaaaa'],
-    18: ['aaaaaaaaaaaaaaaaaa'],
-    19: ['aaaaaaaaaaaaaaaaaaa'],
-    20: ['aaaaaaaaaaaaaaaaaaaa'],
-    21: ['aaaaaaaaaaaaaaaaaaaaa'],
-    22: ['aaaaaaaaaaaaaaaaaaaaaa'],
-    23: ['aaaaaaaaaaaaaaaaaaaaaaa'],
-    24: ['aaaaaaaaaaaaaaaaaaaaaaaa'],
-    25: ['aaaaaaaaaaaaaaaaaaaaaaaaa']
+    scores: {
+        1: ['a'],
+        2: ['aa'],
+        3: ['aaa'],
+        4: ['aaaa'],
+        5: ['aaaaa'],
+        6: ['aaaaaa'],
+        7: ['aaaaaaa'],
+        8: ['aaaaaaaa'],
+        9: ['aaaaaaaaa'],
+        10: ['aaaaaaaaaa'],
+        11: ['aaaaaaaaaaa'],
+        12: ['aaaaaaaaaaaa'],
+        13: ['aaaaaaaaaaaaa'],
+        14: ['aaaaaaaaaaaaaa'],
+        15: ['aaaaaaaaaaaaaaa'],
+        16: ['aaaaaaaaaaaaaaaa'],
+        17: ['aaaaaaaaaaaaaaaaa'],
+        18: ['aaaaaaaaaaaaaaaaaa'],
+        19: ['aaaaaaaaaaaaaaaaaaa'],
+        20: ['aaaaaaaaaaaaaaaaaaaa'],
+        21: ['aaaaaaaaaaaaaaaaaaaaa'],
+        22: ['aaaaaaaaaaaaaaaaaaaaaa'],
+        23: ['aaaaaaaaaaaaaaaaaaaaaaa'],
+        24: ['aaaaaaaaaaaaaaaaaaaaaaaa'],
+        25: ['aaaaaaaaaaaaaaaaaaaaaaaaa']
+    }
 };
 
 var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    var word = scoreWordMap[score][Math.floor(Math.random() * scoreWordMap[score].length -1) + 1];     // FIXME
+    var word = scoreWordMap.scores[score][Math.floor(Math.random() * scoreWordMap.scores[score].length -1) + 1];
 
     if (captializeNextWord) {
         word = word.charAt(0).toUpperCase() + word.substring(1);
@@ -309,6 +344,10 @@ $(document).ready(function() {
     $('#encoder-form').submit(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        if (!wordsLoaded) {
+            alert("Like, wait for the words to be loaded man!");
+            return;
+        }
         var str = $('#encoder-text').val();
         var encrypted = beatnikify(str);
         $('#encoder-results').html('<p>' + encrypted + '</p>');

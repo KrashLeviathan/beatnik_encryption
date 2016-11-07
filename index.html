@@ -44,7 +44,9 @@
     </form>
 
     <h2>Encoder Results</h2>
-    <div id="encoder-results"></div>
+    <div id="encoder-results">
+
+    </div>
 
 
     <h2>Decoding</h2>
@@ -61,7 +63,11 @@
     </form>
 
     <h2>Decoder Results</h2>
-    <div id="decoder-results"></div>
+    <div id="decoder-results">
+        <button class="btn" data-clipboard-target="#decoder-results">
+            <img src="/images/clippy.png" alt="Copy to clipboard">
+        </button>
+    </div>
 
     <div id="loading-words">LOADING WORDS...</div>
 
@@ -74,7 +80,10 @@
 
 </div>
 </body>
+
+<script src="/js/vendor/clipboard.min.js"></script>
 <script>
     get_words_api();
+    new Clipboard('.btn');
 </script>
 </html>

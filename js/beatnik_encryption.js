@@ -72,6 +72,7 @@ function get_words_api(){
             addWordsToDB(words2);
             addWordsToDB(words3);
             addWordsToDB(words4);
+
         }
     });
 }
@@ -350,12 +351,14 @@ $(document).ready(function() {
         }
         var str = $('#encoder-text').val();
         var encrypted = beatnikify(str);
-        $('#encoder-results').html('<p>' + encrypted + '</p>');
+        $('#encoder-results').html('<p id="encoded-p">' + encrypted + '</p><button class="btn" data-clipboard-target="#encoded-p"><img src="/images/clippy.png" alt="Copy to clipboard"></button>');
     });
 
     $('#decoder-form').submit(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
+        //TODO add this to the decoder html at the end of the </p> tag
+        //<button class="btn" data-clipboard-target="#decoder-results"><img src="/images/clippy.png" alt="Copy to clipboard"></button>
     });
 });

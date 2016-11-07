@@ -1,4 +1,7 @@
-// This beatnik interpreter was found at http://www.club.cc.cmu.edu/~rjmccall/beatnik.js
+console.log("NOTE: The beatnik interpreter was found at http://www.club.cc.cmu.edu/~rjmccall/beatnik.js");
+console.log("The only changes made to the interpreter were the addition of these two initial console.log " +
+  "statments and the uncommenting of the line in beatnik_compile() that kills everything which isn't a letter. " +
+  "This is to conform to the beatnik language specification that says that punctuation should be ignored.");
 
 /* Evaluates the given script in the given console. */
 function beatnik_console_eval(script, console, status) {
@@ -324,7 +327,7 @@ BeatnikClosure.prototype.step = function(print) {
 /* (it's an array of word values) */
 function beatnik_compile(script) {
   // Kill everything that isn't whitespace or a letter.
-  //script = script.replace(/[^ \na-zA-Z]/g, '');
+  script = script.replace(/[^ \na-zA-Z]/g, '');
 
   // Kill leading and trailing whitespace.
   script = script.replace(/^\s+/, '');

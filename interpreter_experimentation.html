@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Interpreter Experimentation</title>
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>-->
+    <script src="js/vendor/jquery.js"></script>
+    <!--<script src="http://www.club.cc.cmu.edu/~rjmccall/beatnik.js"></script>-->
+    <script src="js/vendor/interpreter.js"></script>
+    <!--<script src="js/beatnik_encryption.js"></script>-->
+</head>
+<body>
+<div id="container">
+    <h1>Beatnik Interpretation</h1>
+
+    <h2>Decoding</h2>
+    <p>Enter the string you want to decode in the textbox below,
+        and press <b>Interpret the tortured genius!</b> Interpreter
+        created by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
+            Carnegie Mellon Computer Club</a>.</p>
+
+    <form id="decoder-form">
+        <label>
+            <textarea rows="8" cols="50" name="decoder-text" form="decoder-form" id="decoder-text" placeholder="Enter beatnik poem here..."></textarea>
+        </label><br>
+        <label for="interp-status">
+            <input type="text" id="interp-status">
+        </label>
+        <input type="submit" value="Interpret the tortured genius!">
+    </form>
+
+    <h2>Decoder Results</h2>
+    <textarea id="decoder-results">
+    </textarea>
+
+    <footer>
+        <h3>Authors:</h3>
+        <p>Nathan Karasch (<a href="http://krashdev.com/" target="_blank">krashdev.com</a>)<br></p>
+        <p>Charlie Steenhagen (<a href="http://www.stonestreetsoftware.com/"
+                               target="_blank">www.stonestreetsoftware.com</a>)</p>
+    </footer>
+
+</div>
+</body>
+
+<script>
+    var interpConsole = document.getElementById('decoder-results');
+    var interpStatus  = document.getElementById('interp-status');
+    $('#decoder-form').submit(function(event) {
+        var interpScript  = $('#decoder-text').val();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        beatnik_console_eval(interpScript, interpConsole, interpStatus);
+    });
+</script>
+</html>

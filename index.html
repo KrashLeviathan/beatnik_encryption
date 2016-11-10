@@ -42,10 +42,16 @@
         </label><br>
         <input type="submit" value="Stir my soul!">
     </form>
-
+    <div id="form_upload_file">
+        <h3>Or upload a file to encrypt it.</h3>
+        <input type="file" id="encoded_file" name="file" value="Encode File">
+    </div>
     <h2>Encoder Results</h2>
     <div id="encoder-results">
-
+        <button class="btn" data-clipboard-target="#encoded-p">
+            <img src="/images/clippy.png" alt="Copy to clipboard">
+        </button>
+        <p id="encoded-p"></p>
     </div>
 
 
@@ -67,6 +73,11 @@
         <button class="btn" data-clipboard-target="#decoder-results">
             <img src="/images/clippy.png" alt="Copy to clipboard">
         </button>
+        <p id="decoded-p"></p>
+    </div>
+
+    <div id="download_as_file">
+        <button class="submit" id="download_file">Download As File</button>
     </div>
 
     <div id="loading-words">LOADING WORDS...</div>
@@ -85,5 +96,28 @@
 <script>
     get_words_api();
     new Clipboard('.btn');
+
+    var handleFileSelect = function(evt) {
+        var files = evt.target.files;
+        var file = files[0];
+
+        if (files && file) {
+            var reader = new FileReader();
+
+            reader.onload = function(readerEvt) {
+                var binaryString = readerEvt.target.result;
+                encrypted_words = beatnikify(btoa(binaryString));
+                $('#encoded-p').html(encrypted_words);
+            };
+
+            reader.readAsBinaryString(file);
+        }
+    };
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        document.getElementById('encoded_file').addEventListener('change', handleFileSelect, false);
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
 </script>
 </html>

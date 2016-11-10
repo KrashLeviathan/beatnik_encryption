@@ -39,6 +39,7 @@ h3 {
 }
 
 textarea, #encoder-results, #decoder-results {
+
     display: block;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -74,7 +75,8 @@ textarea {
     font-family: 'Gloria Hallelujah', cursive;
 }
 
-input[type="submit"] {
+input[type="submit"], .submit {
+    font-family: inherit;
     display: block;
     margin: 0 auto;
     font-size: 1em;
@@ -85,9 +87,10 @@ input[type="submit"] {
     border: 1px solid #0E090E;
     border-left-width: 1em;
     border-right-width: 1em;
+
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, .submit:hover {
     background-color: #46967f;
     cursor: pointer;
 }
@@ -177,4 +180,13 @@ img {
     top: 0;
     left: 0;
     overflow-y: scroll;
+}
+#form_upload_file{
+    width: 100%;
+    text-align: center;
+    margin: 50px auto;
+}
+
+#encode_file{
+    margin: 20px auto;
 }

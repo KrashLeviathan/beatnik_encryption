@@ -351,7 +351,7 @@ $(document).ready(function() {
         }
         var str = $('#encoder-text').val();
         var encrypted = beatnikify(str);
-        $('#encoder-results').html('<button class="btn" data-clipboard-target="#encoded-p"><img src="/images/clippy.png" alt="Copy to clipboard"></button><p id="encoded-p">' + encrypted + '</p>');
+        $('#encoded-p').html(encrypted)
     });
 
     $('#decoder-form').submit(function(event) {

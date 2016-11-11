@@ -30,6 +30,7 @@ function getWordsFromDB() {
             }
         });
         console.log("Total number of words being used: " + scoreWordMap.totalCount());
+        $('#word-count').html(scoreWordMap.totalCount());
         // TODO: Remove the log statements below this comment when this is all completed
         console.log("scoreWordMap.scores:");
         console.log(scoreWordMap.scores);

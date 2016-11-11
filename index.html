@@ -47,7 +47,7 @@
     </form>
     <div id="form_upload_file">
         <h3>Or upload a file to base64 encode and encrypt it.</h3>
-        <input type="file" id="encoded_file" name="file" value="Encode File">
+        <input type="file" id="encoded_file" name="file" value="Encode File" autocomplete="off">
     </div>
     <h2 id="encryption-results">Encryption Results</h2>
     <p><a href="#">Copy All</a> | <a href="#">Clear</a></p>    <!--####################   TODO   ####################-->
@@ -77,7 +77,7 @@
     <h2 id="decryption-results">Decryption Results</h2>
     <label for="interp-status">
         Interpretter Status:
-        <input type="text" id="interp-status">
+        <input type="text" id="interp-status" autocomplete="off">
     </label>
     <p>A status of "Stopped" indicates the poem was fully interpretted with no errors.
         Errors reported by the interpreter indicated there is a problem with the Beatnik poem.
@@ -86,7 +86,7 @@
         <img src="/images/clippy.png" alt="Copy to clipboard">
     </button>
     <p><a href="#">Copy All</a> | <a href="#">Clear</a></p>    <!--####################   TODO   ####################-->
-    <textarea id="decoder-results"></textarea>
+    <textarea id="decoder-results" autocomplete="off"></textarea>
     <!--<div id="decoder-results">-->
         <!--<button class="btn" data-clipboard-target="#decoder-results">-->
             <!--<img src="/images/clippy.png" alt="Copy to clipboard">-->
@@ -98,7 +98,17 @@
         <button class="submit" id="download_file">Decode and Download As File</button>
     </div>
 
-    <h2>More Information</h2>
+    <h2 id="more-information">More Information</h2>
+    <p>What words are we using to generate the poems? Well, when the page is
+    loaded, we make a call to <a href="http://www.randomtext.me" target="_blank">RandomText.me</a>'s
+    gibberish API, which gives us back a string full of nonsense. We parse the words out of the
+    nonsense, give them a Scrabble score, and attempt to add them to our database of word/score
+    pairs. If the word is not already in the database, it gets added. You can actually see in the
+    console how many words are added each time the page is loaded.</p>
+    <p>In parallel to the API call to add the words, we're also making a request from our own
+    database to get all word/score pairs. As of right now, there are
+        <span id="word-count">(querying...)</span> different words to choose from. (Refresh the page,
+    and you'll likely see that number go up!)</p>
     <p>Since apparently there are slight variations in scrabble scoring depending on
     what year the game was made, what follows is the letter scoring that we used:</p>
     <ul id="letter-scoring1"></ul>
@@ -109,11 +119,13 @@
 
     <div id="loading-words">LOADING WORDS...</div>
 
-    <footer id="more-information">
+    <footer>
         <h3>Authors:</h3>
         <p>Nathan Karasch (<a href="http://krashdev.com/" target="_blank">krashdev.com</a>)<br></p>
         <p>Charlie Steenhagen (<a href="http://www.stonestreetsoftware.com/"
                                target="_blank">www.stonestreetsoftware.com</a>)</p>
+        <p>Interpreter written by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
+        Carnegie Mellon Computer Club</a>.</p>
     </footer>
 
 </div>

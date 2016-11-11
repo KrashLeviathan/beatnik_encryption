@@ -174,14 +174,40 @@ img {
 
 ul {
     float: left;
-    margin-left: 20vw;
-}
-
-#letter-scoring1 {
-    margin-left: 10vw;
+    margin-left: 20%;
 }
 
 ul li span {
     display: inline-block;
     width: 2em;
+}
+
+@media(max-width: 700px) {
+    #container {
+        width: 95%;
+    }
+
+    #container * {
+        max-width: 100%;
+    }
+
+    .left-of-image {
+        float: none;
+        width: 100%;
+    }
+
+    img {
+        float: none;
+        display: block;
+        width: 40vw;
+        margin: 2em auto 0;
+    }
+
+    #letter-scoring1 {
+        margin-left: 10%;
+    }
+
+    input[type="submit"] {
+        white-space: normal;
+    }
 }

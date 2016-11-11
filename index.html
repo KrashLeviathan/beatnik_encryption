@@ -50,11 +50,8 @@
         <input type="file" id="encoded_file" name="file" value="Encode File" autocomplete="off">
     </div>
     <h2 id="encryption-results">Encryption Results</h2>
-    <p><a href="#">Copy All</a> | <a href="#">Clear</a></p>    <!--####################   TODO   ####################-->
+    <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span></p>    <!--####################   TODO   ####################-->
     <div id="encoder-results">
-        <button class="btn" data-clipboard-target="#encoded-p">
-            <img src="/images/clippy.png" alt="Copy to clipboard">
-        </button>
         <p id="encoded-p"></p>
     </div>
 
@@ -82,17 +79,9 @@
     <p>A status of "Stopped" indicates the poem was fully interpretted with no errors.
         Errors reported by the interpreter indicated there is a problem with the Beatnik poem.
         The results below have been decrypted, but have not yet been base64-decoded.</p>
-    <button class="btn" data-clipboard-target="#decoder-results">
-        <img src="/images/clippy.png" alt="Copy to clipboard">
-    </button>
-    <p><a href="#">Copy All</a> | <a href="#">Clear</a></p>    <!--####################   TODO   ####################-->
+    <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear" id="clear_decoder">Clear</span></p>    <!--####################   TODO   ####################-->
     <textarea id="decoder-results" autocomplete="off"></textarea>
-    <!--<div id="decoder-results">-->
-        <!--<button class="btn" data-clipboard-target="#decoder-results">-->
-            <!--<img src="/images/clippy.png" alt="Copy to clipboard">-->
-        <!--</button>-->
-        <!--<p id="decoded-p"></p>-->
-    <!--</div>-->
+
 
     <div id="download_as_file">
         <button class="submit" id="download_file">Decode and Download As File</button>
@@ -133,6 +122,7 @@
 
 <script src="/js/vendor/clipboard.min.js"></script>
 <script>
+
     get_words_api();
     new Clipboard('.btn');
 
@@ -158,5 +148,11 @@
     } else {
         alert('The File APIs are not fully supported in this browser.');
     }
+    $('#clear_decoder').click(function(){
+        $('#decoder-results').val('');
+    });
+    $('#clear_encoder').click(function(){
+        $('#encoded-p').html(' ');
+    });
 </script>
 </html>

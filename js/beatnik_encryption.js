@@ -156,7 +156,7 @@ var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    var word = scoreWordMapForTesting.scores[score][Math.floor(Math.random() * scoreWordMapForTesting.scores[score].length -1) + 1];
+    var word = scoreWordMap.scores[score][Math.floor(Math.random() * scoreWordMap.scores[score].length -1) + 1];
 
     if (captializeNextWord) {
         word = word.charAt(0).toUpperCase() + word.substring(1);
@@ -267,8 +267,10 @@ var functionToScore = {
 // the function takes one)
 function wordsForFunction(func, scoreArg) {
     if (scoreArg) {
+        // console.log(func + '(' + scoreArg + ')'); // Debugging
         return getWord(functionToScore[func]) + getWord(scoreArg);
     } else {
+        // console.log(func); // Debugging
         return getWord(functionToScore[func]);
     }
 }
@@ -298,7 +300,8 @@ var bn = {
 // Takes any string and returns a beatnik program (string) that prints that string.
 function beatnikify(str) {
     var stringArray = [];
-    for (var i = 0; i < str.length; i++) {
+    for (var i = str.length - 1; i >= 0; i--) {
+        // console.log('   ' + str[i] + ': ' + str.charCodeAt(i)); // Debugging
         stringArray.push(pushCharValueToStack(str.charCodeAt(i)));
     }
     for (var j = 0; j < str.length; j++) {
@@ -330,6 +333,9 @@ function splitCharValue(value) {
             var subtracted = getRandomInt(1, scoreWordMap.maxScore + 1);
             values.push(subtracted);
             value -= subtracted;
+        }
+        if (value > 0) {
+            values.push(value);
         }
         return values;
     } else if (value < 1) {

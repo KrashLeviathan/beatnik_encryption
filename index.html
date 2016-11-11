@@ -31,8 +31,8 @@
     <img src="images/tux-150059_960_720.png" alt="beatniks">
     <div style="clear: both"></div>
 
-    <h2>Encoding</h2>
-    <p>Enter the string you want to encrypt in the textbox below,
+    <h2>Encrypting</h2>
+    <p>Enter the base64-encoded string you want to encrypt in the textbox below,
         and press <b>Stir my soul!</b></p>
 
     <form id="encoder-form">
@@ -43,10 +43,10 @@
         <input type="submit" value="Stir my soul!">
     </form>
     <div id="form_upload_file">
-        <h3>Or upload a file to encrypt it.</h3>
+        <h3>Or upload a file to base64 encode and encrypt it.</h3>
         <input type="file" id="encoded_file" name="file" value="Encode File">
     </div>
-    <h2>Encoder Results</h2>
+    <h2>Encryption Results</h2>
     <div id="encoder-results">
         <button class="btn" data-clipboard-target="#encoded-p">
             <img src="/images/clippy.png" alt="Copy to clipboard">
@@ -55,8 +55,8 @@
     </div>
 
 
-    <h2>Decoding</h2>
-    <p>Enter the string you want to decode in the textbox below,
+    <h2>Decryption</h2>
+    <p>Enter the Beatnik poem you want to decrypt in the textbox below,
         and press <b>Interpret the tortured genius!</b> Interpreter
         created by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
             Carnegie Mellon Computer Club</a>.</p>
@@ -68,7 +68,8 @@
         <input type="submit" value="Interpret the tortured genius!">
     </form>
 
-    <h2>Decoder Results</h2>
+    <h2>Decryption Results</h2>
+    <p>The results below have been decrypted, but have not yet been base64-decoded.</p>
     <div id="decoder-results">
         <button class="btn" data-clipboard-target="#decoder-results">
             <img src="/images/clippy.png" alt="Copy to clipboard">
@@ -77,7 +78,7 @@
     </div>
 
     <div id="download_as_file">
-        <button class="submit" id="download_file">Download As File</button>
+        <button class="submit" id="download_file">Decode and Download As File</button>
     </div>
 
     <div id="loading-words">LOADING WORDS...</div>

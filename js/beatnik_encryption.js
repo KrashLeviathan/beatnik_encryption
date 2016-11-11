@@ -123,31 +123,31 @@ var scoreWordMap = {
 
 var scoreWordMapForTesting = {
     scores: {
-        1: ['a'],
-        2: ['aa'],
-        3: ['aaa'],
-        4: ['aaaa'],
-        5: ['aaaaa'],
-        6: ['aaaaaa'],
-        7: ['aaaaaaa'],
-        8: ['aaaaaaaa'],
-        9: ['aaaaaaaaa'],
-        10: ['aaaaaaaaaa'],
-        11: ['aaaaaaaaaaa'],
-        12: ['aaaaaaaaaaaa'],
-        13: ['aaaaaaaaaaaaa'],
-        14: ['aaaaaaaaaaaaaa'],
-        15: ['aaaaaaaaaaaaaaa'],
-        16: ['aaaaaaaaaaaaaaaa'],
-        17: ['aaaaaaaaaaaaaaaaa'],
-        18: ['aaaaaaaaaaaaaaaaaa'],
-        19: ['aaaaaaaaaaaaaaaaaaa'],
-        20: ['aaaaaaaaaaaaaaaaaaaa'],
-        21: ['aaaaaaaaaaaaaaaaaaaaa'],
-        22: ['aaaaaaaaaaaaaaaaaaaaaa'],
-        23: ['aaaaaaaaaaaaaaaaaaaaaaa'],
-        24: ['aaaaaaaaaaaaaaaaaaaaaaaa'],
-        25: ['aaaaaaaaaaaaaaaaaaaaaaaaa']
+        1: ['T'],
+        2: ['TE'],
+        3: ['TES'],
+        4: ['Test'],
+        5: ['TestI'],
+        6: ['TestOO'],
+        7: ['TestAAA'],
+        8: ['TestTest'],
+        9: ['TestTestI'],
+        10: ['TestTestOO'],
+        11: ['TestTestAAA'],
+        12: ['TestTestTest'],
+        13: ['TestTestTestI'],
+        14: ['TestTestTestOO'],
+        15: ['TestTestTestAAA'],
+        16: ['TestTestTestTest'],
+        17: ['TestTestTestTestI'],
+        18: ['TestTestTestTestOO'],
+        19: ['TestTestTestTestAAA'],
+        20: ['TestTestTestTestTest'],
+        21: ['TestTestTestTestTestI'],
+        22: ['TestTestTestTestTestOO'],
+        23: ['TestTestTestTestTestAAA'],
+        24: ['TestTestTestTestTestTest'],
+        25: ['TestTestTestTestTestTestI']
     }
 };
 
@@ -155,7 +155,7 @@ var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    var word = scoreWordMap.scores[score][Math.floor(Math.random() * scoreWordMap.scores[score].length -1) + 1];
+    var word = scoreWordMapForTesting.scores[score][Math.floor(Math.random() * scoreWordMapForTesting.scores[score].length -1) + 1];
 
     if (captializeNextWord) {
         word = word.charAt(0).toUpperCase() + word.substring(1);
@@ -345,6 +345,7 @@ $(document).ready(function() {
     $('#encoder-form').submit(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        window.location.href = "#encryption-results";
         if (!wordsLoaded) {
             alert("Like, wait for the words to be loaded man!");
             return;
@@ -361,6 +362,7 @@ $(document).ready(function() {
     $('#decoder-form').submit(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        window.location.href = "#decryption-results";
         var interpScript  = $('#decoder-text').val();
         beatnik_console_eval(interpScript, interpConsole, interpStatus);
 

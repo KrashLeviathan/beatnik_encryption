@@ -354,11 +354,31 @@ $(document).ready(function() {
         $('#encoded-p').html(encrypted)
     });
 
+    // I don't think these can use jQuery because the interpreter doesn't use jQuery.
+    var interpConsole = document.getElementById('decoder-results');
+    var interpStatus  = document.getElementById('interp-status');
+
     $('#decoder-form').submit(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        var interpScript  = $('#decoder-text').val();
+        beatnik_console_eval(interpScript, interpConsole, interpStatus);
 
         //TODO add this to the decoder html at the end of the </p> tag
         //<button class="btn" data-clipboard-target="#decoder-results"><img src="/images/clippy.png" alt="Copy to clipboard"></button>
     });
+
+    displayLetterScoring();
 });
+
+function displayLetterScoring() {
+    var lengthOfSection = Math.floor(scrabble_scores.length / 3) + 1;
+    for (var j = 0; j < 3; j++) {
+        var innerHtmlItems = [];
+        for (var i = lengthOfSection * j; i < lengthOfSection * (j+1) && i < scrabble_scores.length; i++) {
+            var letter = String.fromCharCode(65 + i);
+            innerHtmlItems.push('<li><span>' + letter + ':</span>' + scrabble_scores[i] + '</li>');
+        }
+        $('#letter-scoring' + (j+1)).html(innerHtmlItems.join(''));
+    }
+}

@@ -31,7 +31,7 @@ h1 {
 
 h2 {
     font-size: 1.5em;
-    margin: 1em 0 0.25em 0;
+    margin: 3em 0 0.25em 0;
 }
 
 h3 {
@@ -189,4 +189,18 @@ img {
 
 #encode_file{
     margin: 20px auto;
+}
+
+ul {
+    float: left;
+    margin-left: 20vw;
+}
+
+#letter-scoring1 {
+    margin-left: 10vw;
+}
+
+ul li span {
+    display: inline-block;
+    width: 2em;
 }

@@ -90,6 +90,7 @@
         <div id="form_upload_file">
             <input type="file" id="encode_file" name="e_file" value="Encrypt File" autocomplete="off">
         </div>
+        <p>MIME File Type: "<span id="e-file-type"></span>"</p>
 
         <h2>Decrypt/Decode File</h2>
         <p>Choose a file containing a beatnik poem to decrypt. As mentioned above, nothing you upload
@@ -97,9 +98,13 @@
         you to save a file to your computer. This should have the extension you'd expect from whatever
         your original file was before being encrypted.</p>
         <div id="download_as_file">
+            <label for="d-file-type">
+                Target MIME File Type:
+                <input type="text" id="d-file-type" autocomplete="off" name="d_file_type" value="">
+            </label>
             <input type="file" id="decode_file" name="d_file" value="Decrypt File" autocomplete="off">
-            <!--<button class="submit" id="download_file">Decode and Download As File</button>-->
         </div>
+        <textarea id="file-decryption-console" autocomplete="off" style="display: none;"></textarea>
     </div>
 
     <h2 id="more-information">More Information</h2>

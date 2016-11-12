@@ -163,13 +163,7 @@ img {
     overflow-y: scroll;
 }
 #form_upload_file{
-    width: 100%;
-    text-align: center;
-    margin: 50px auto;
-}
-
-#encode_file{
-    margin: 20px auto;
+    margin: 1em 0;
 }
 
 ul {

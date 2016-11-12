@@ -21,21 +21,20 @@ function addWordsToDB(wordsArray) {
 function getWordsFromDB() {
     $.getJSON('/database.php?action=get_words', function(php_json){
         $('#loading-words').remove();
-        var badResults = [];
+        // var badResults = [];
         $(php_json.words).each(function(){
             if (this.score > scoreWordMap.maxScore) {
-                badResults.push(this);
+                // badResults.push(this);
             } else {
                 scoreWordMap.scores[this.score].push(this.word);
             }
         });
         console.log("Total number of words being used: " + scoreWordMap.totalCount());
         $('#word-count').html(scoreWordMap.totalCount());
-        // TODO: Remove the log statements below this comment when this is all completed
         console.log("scoreWordMap.scores:");
         console.log(scoreWordMap.scores);
-        console.log("Bad Results (score > " + scoreWordMap.maxScore + "): " + badResults.length);
-        console.log(badResults);
+        // console.log("Bad Results (score > " + scoreWordMap.maxScore + "): " + badResults.length);
+        // console.log(badResults);
         wordsLoaded = true;
     });
 }
@@ -121,6 +120,7 @@ var scoreWordMap = {
     }
 };
 
+//noinspection JSUnusedGlobalSymbols
 var scoreWordMapForTesting = {
     scores: {
         1: ['T'],
@@ -276,7 +276,6 @@ function wordsForFunction(func, scoreArg) {
 
 // Returns a function that can be called with an argument (when appropriate). The function
 // returns a String of the word output for that function.
-// TODO: Consider deleting unused methods after everything is finished?
 var bn = {
     push: function(scoreArg) { return wordsForFunction("push", scoreArg)},
     pop: function() { return wordsForFunction("pop", null)},
@@ -304,7 +303,6 @@ function beatnikify(str) {
         stringArray.push(pushCharValueToStack(str.charCodeAt(i)));
     }
     for (var j = 0; j < str.length; j++) {
-        // TODO: This can be made more interesting later if we have time instead of popping them all at the end.
         stringArray.push(bn.popAndPrintChar());
     }
 
@@ -407,6 +405,8 @@ function handleEncryptFile(evt) {
     var files = evt.target.files;
     var file = files[0];
     if (files && file) {
+        $('#e-file-type').html(file.type);
+        $('#d-file-type').val(file.type);
         var reader = new FileReader();
         reader.onload = function(readerEvt) {
             var binaryString = readerEvt.target.result;
@@ -425,10 +425,14 @@ function handleDecryptFile(evt) {
     if (files && file) {
         var reader = new FileReader();
         reader.onload = function(readerEvt) {
-            var textString = readerEvt.target.result;
-            // TODO
-//                var encrypted_words = beatnikify(btoa(binaryString)).replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
-//                download(encrypted_words, file.name + '.txt', 'text/plain');
+            var interpConsole = document.getElementById('file-decryption-console');
+            var interpStatus  = document.getElementById('interp-status');
+            interpStatus.value = '';
+            var interpScript  = readerEvt.target.result;
+            beatnik_console_eval(interpScript, interpConsole, interpStatus);
+            var decoded_results = atob(interpConsole.value);
+            var fileType = $('#d-file-type').val();
+            download(decoded_results, file.name.replace(/\.txt/, ''), fileType);
         };
         reader.readAsText(file);
     } else {

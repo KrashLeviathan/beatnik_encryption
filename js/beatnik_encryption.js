@@ -11,7 +11,7 @@ function getRandomInt(min, max) {
 
 // Adds words to our own database with the appropriate scrabble score for each word.
 function addWordsToDB(wordsArray) {
-    $.getJSON('/database.php?action=add_words&words='+wordsArray.toString(), function(php_json){
+    $.getJSON('/database.php?action=add_words&words=' + wordsArray.toString(), function (php_json) {
         if (php_json && php_json.words_added != 0) {
             console.log("Learned " + php_json.words_added + " new words!");
         }
@@ -19,10 +19,10 @@ function addWordsToDB(wordsArray) {
 }
 
 function getWordsFromDB() {
-    $.getJSON('/database.php?action=get_words', function(php_json){
+    $.getJSON('/database.php?action=get_words', function (php_json) {
         $('#loading-words').remove();
         // var badResults = [];
-        $(php_json.words).each(function(){
+        $(php_json.words).each(function () {
             if (this.score > scoreWordMap.maxScore) {
                 // badResults.push(this);
             } else {
@@ -42,14 +42,14 @@ function getWordsFromDB() {
 // Called at the bottom of index.html when the page loads. This fetches random words from
 // the randomtext.me api to populate our own database. The more times the page is loaded,
 // the more verbose the encrypter becomes!
-function get_words_api(){
+function get_words_api() {
     // Get all words that have already been entered in the DB
     getWordsFromDB();
 
     // Add more words to the DB to make the program more poetic in the future.
     $.ajax({
         url: 'http://www.randomtext.me/api/gibberish/p-5/100',
-        success: function(json){
+        success: function (json) {
             var p = json.text_out;
             var words = $(p).text();
             var words_array = words.replace(/\. ?/g, ' ').split(' ');
@@ -57,14 +57,14 @@ function get_words_api(){
             var words2 = [];
             var words3 = [];
             var words4 = [];
-            for(var i =0;i<100;i++){
-                if(i<25){
+            for (var i = 0; i < 100; i++) {
+                if (i < 25) {
                     words1.push(words_array[i].toLowerCase());
-                }else if(i<50){
+                } else if (i < 50) {
                     words2.push(words_array[i].toLowerCase());
-                }else if(i<75){
+                } else if (i < 75) {
                     words3.push(words_array[i].toLowerCase());
-                }else{
+                } else {
                     words4.push(words_array[i].toLowerCase());
                 }
             }
@@ -77,7 +77,7 @@ function get_words_api(){
 }
 
 // Maps to A-Z
-var scrabble_scores = [1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10];
+var scrabble_scores = [1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10];
 
 // This map should be filled in by the word API
 var scoreWordMap = {
@@ -109,7 +109,7 @@ var scoreWordMap = {
         25: []
     },
     maxScore: 25,
-    totalCount: function() {
+    totalCount: function () {
         var sum = 0;
         for (var score in this.scores) {
             if (this.scores.hasOwnProperty(score)) {
@@ -155,7 +155,7 @@ var captializeNextWord = true;
 
 // Returns a word at random from the list of words that have the given score.
 function getWord(score) {
-    var word = scoreWordMap.scores[score][Math.floor(Math.random() * scoreWordMap.scores[score].length -1) + 1];
+    var word = scoreWordMap.scores[score][Math.floor(Math.random() * scoreWordMap.scores[score].length - 1) + 1];
 
     if (captializeNextWord) {
         word = word.charAt(0).toUpperCase() + word.substring(1);
@@ -169,8 +169,6 @@ function getWord(score) {
 }
 
 
-
-
 // The distribution object allows you to get random values from a set based on their
 // distribution (over 100). The `get` method is bound to the punctuation and whitespace
 // objects below. Each key in the `percentages` map is the int percentage, with the value
@@ -182,7 +180,7 @@ var distribution = {
     defaultValue: "",
     boundaryValues: {},
     initialized: false,
-    get: function() {
+    get: function () {
         if (!this.initialized) {
             var maxBoundaryValue = 0;
             for (var pKey in this.percentages) {
@@ -242,8 +240,6 @@ var whitespace = {
 var getWhitespace = distribution.get.bind(whitespace);
 
 
-
-
 // Maps function "names" to the given score for that function
 var functionToScore = {
     push: 5,
@@ -291,8 +287,6 @@ var bn = {
     skipBackIfNotZero: function(scoreArg) { return wordsForFunction("skipBackIfNotZero", scoreArg)},
     stopProgram: function() { return wordsForFunction("stopProgram", null)}
 };
-
-
 
 
 // Takes any string and returns a beatnik program (string) that prints that string.
@@ -361,11 +355,11 @@ function decryptFormData(event) {
 
     // I don't think these can use jQuery because the interpreter doesn't use jQuery.
     var interpConsole = document.getElementById('decoder-results');
-    var interpStatus  = document.getElementById('interp-status');
+    var interpStatus = document.getElementById('interp-status');
 
     window.location.href = "#decryption-results";
     interpStatus.value = '';
-    var interpScript  = $('#decoder-text').val();
+    var interpScript = $('#decoder-text').val();
     beatnik_console_eval(interpScript, interpConsole, interpStatus);
 }
 
@@ -373,11 +367,11 @@ function displayLetterScoring() {
     var lengthOfSection = Math.floor(scrabble_scores.length / 3) + 1;
     for (var j = 0; j < 3; j++) {
         var innerHtmlItems = [];
-        for (var i = lengthOfSection * j; i < lengthOfSection * (j+1) && i < scrabble_scores.length; i++) {
+        for (var i = lengthOfSection * j; i < lengthOfSection * (j + 1) && i < scrabble_scores.length; i++) {
             var letter = String.fromCharCode(65 + i);
             innerHtmlItems.push('<li><span>' + letter + ':</span>' + scrabble_scores[i] + '</li>');
         }
-        $('#letter-scoring' + (j+1)).html(innerHtmlItems.join(''));
+        $('#letter-scoring' + (j + 1)).html(innerHtmlItems.join(''));
     }
 }
 
@@ -385,7 +379,7 @@ function displayLetterScoring() {
 // http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function download(data, filename, type) {
     var a = document.createElement("a"),
-      file = new Blob([data], {type: type});
+        file = new Blob([data], {type: type});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
@@ -394,7 +388,7 @@ function download(data, filename, type) {
         a.download = filename;
         document.body.appendChild(a);
         a.click();
-        setTimeout(function() {
+        setTimeout(function () {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);
@@ -408,7 +402,7 @@ function handleEncryptFile(evt) {
         $('#e-file-type').html(file.type);
         $('#d-file-type').val(file.type);
         var reader = new FileReader();
-        reader.onload = function(readerEvt) {
+        reader.onload = function (readerEvt) {
             var binaryString = readerEvt.target.result;
             var encrypted_words = beatnikify(btoa(binaryString)).replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
             download(encrypted_words, file.name + '.txt', 'text/plain');
@@ -424,11 +418,11 @@ function handleDecryptFile(evt) {
     var file = files[0];
     if (files && file) {
         var reader = new FileReader();
-        reader.onload = function(readerEvt) {
+        reader.onload = function (readerEvt) {
             var interpConsole = document.getElementById('file-decryption-console');
-            var interpStatus  = document.getElementById('interp-status');
+            var interpStatus = document.getElementById('interp-status');
             interpStatus.value = '';
-            var interpScript  = readerEvt.target.result;
+            var interpScript = readerEvt.target.result;
             beatnik_console_eval(interpScript, interpConsole, interpStatus);
             var decoded_results = atob(interpConsole.value);
             var fileType = $('#d-file-type').val();
@@ -441,22 +435,22 @@ function handleDecryptFile(evt) {
 }
 
 function initializeClearButtons() {
-    $('#clear_decoder').click(function(){
+    $('#clear_decoder').click(function () {
         $('#decoder-results').val('');
         $('#interp-status').val('');
     });
-    $('#clear_decoder_form').click(function(){
+    $('#clear_decoder_form').click(function () {
         $('#decoder-text').val('');
     });
-    $('#clear_encoder').click(function(){
+    $('#clear_encoder').click(function () {
         $('#encoded-p').html('');
     });
-    $('#clear_encoder_form').click(function(){
+    $('#clear_encoder_form').click(function () {
         $('#encoder-text').val('');
     });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Fetch words
     get_words_api();
 
@@ -473,7 +467,7 @@ $(document).ready(function() {
         document.getElementById('decode_file').addEventListener('change', handleDecryptFile, false);
     } else {
         $('#file-support').html('<h2>File Encryption/Decryption</h2>' +
-          '<p>The File APIs are not fully supported in this browser.</p>');
+            '<p>The File APIs are not fully supported in this browser.</p>');
     }
 
     // Handle the clearing of form data with the "Clear" buttons

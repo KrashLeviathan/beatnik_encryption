@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Beatnik Encryption</title>
     <meta name="author" content="Nathan Karasch and Charlie Steenhagen">
-    <meta name="description" content="A javascript program that takes any string and outputs a Beatnik program that prints that string.">
-    <meta name="keywords" content="beatnik, esolang, esoteric, language, encryption, decryption, scrabble, score, stack, javascript, js, karasch, steenhagen">
+    <meta name="description"
+          content="A javascript program that takes any string and outputs a Beatnik program that prints that string.">
+    <meta name="keywords"
+          content="beatnik, esolang, esoteric, language, encryption, decryption, scrabble, score, stack, javascript, js, karasch, steenhagen">
     <link rel="shortcut icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
     <link rel="stylesheet" href="css/reset.css" type="text/css">
@@ -20,19 +22,19 @@
     <h1>Beatnik Encryption</h1>
 
     <div class="left-of-image">
-    <p>The goal of this project was to write a JavaScript function that takes
-        a string and outputs a <a href="http://cliffle.com/esoterica/beatnik.html" target="_blank">Beatnik</a>
-        program that prints that string.</p>
+        <p>The goal of this project was to write a JavaScript function that takes
+            a string and outputs a <a href="http://cliffle.com/esoterica/beatnik.html" target="_blank">Beatnik</a>
+            program that prints that string.</p>
 
-    <p>To encrypt a file/message/etc for transmission, you can base64 encode
-        it, pass it through beatnik_encryption, and send an avante-garde poem
-        over the wire! The receiver would then run it through the
-        <a href="http://www.club.cc.cmu.edu/~rjmccall/beatnik.js" target="_blank">Beatnik Interpretter</a>,
-        base64 decode the resulting string, and <i>presto!</i> -- you're back to the original
-        message!</p>
+        <p>To encrypt a file/message/etc for transmission, you can base64 encode
+            it, pass it through beatnik_encryption, and send an avante-garde poem
+            over the wire! The receiver would then run it through the
+            <a href="http://www.club.cc.cmu.edu/~rjmccall/beatnik.js" target="_blank">Beatnik Interpretter</a>,
+            base64 decode the resulting string, and <i>presto!</i> -- you're back to the original
+            message!</p>
 
         <p><a href="#more-information">More Information</a></p>
-        </div>
+    </div>
     <img src="images/tux-150059_960_720.png" alt="beatniks">
     <div style="clear: both"></div>
 
@@ -49,7 +51,8 @@
         <input type="submit" value="Stir my soul!">
     </form>
     <h2 id="encryption-results">Encryption Results</h2>
-    <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span></p>
+    <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span>
+    </p>
     <div id="encoder-results">
         <p id="encoded-p"></p>
     </div>
@@ -60,12 +63,14 @@
         and press <b>Interpret the tortured genius!</b> Interpreter
         created by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
             Carnegie Mellon Computer Club</a>. You can find a verified "Hello World!"
-        program <a href="https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages#Beatnik" target="_blank">Here</a></p>
+        program <a href="https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages#Beatnik" target="_blank">Here</a>
+    </p>
 
     <form id="decoder-form" autocomplete="off">
         <p><span class="clear" id="clear_decoder_form">Clear</span></p>
         <label>
-            <textarea rows="8" cols="50" name="decoder-text" form="decoder-form" id="decoder-text" placeholder="Enter beatnik poem here..." value=""></textarea>
+            <textarea rows="8" cols="50" name="decoder-text" form="decoder-form" id="decoder-text"
+                      placeholder="Enter beatnik poem here..." value=""></textarea>
         </label><br>
         <input type="submit" value="Interpret the tortured genius!">
     </form>
@@ -78,15 +83,17 @@
     <p>A status of "Stopped" indicates the poem was fully interpretted with no errors.
         Errors reported by the interpreter indicated there is a problem with the Beatnik poem.
         The results below have been decrypted, but have not yet been base64-decoded.</p>
-    <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear" id="clear_decoder">Clear</span></p>
+    <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear"
+                                                                                          id="clear_decoder">Clear</span>
+    </p>
     <textarea id="decoder-results" autocomplete="off"></textarea>
 
     <div id="file-support">
         <h2>Encode/Encrypt File</h2>
         <p>Choose a file to encrypt in Beatnik! A small file is recommended, as all the processing is
-        happening in Javascript on YOUR computer! Nothing you upload actually goes to our servers -- it's
-        base64 encoded and beatnik encrypted in your browser. It will ask you to save a file to your
-        computer. This is the beatnik encrypted poem form, and can be saved as a .txt file.</p>
+            happening in Javascript on YOUR computer! Nothing you upload actually goes to our servers -- it's
+            base64 encoded and beatnik encrypted in your browser. It will ask you to save a file to your
+            computer. This is the beatnik encrypted poem form, and can be saved as a .txt file.</p>
         <div id="form_upload_file">
             <input type="file" id="encode_file" name="e_file" value="Encrypt File" autocomplete="off">
         </div>
@@ -94,9 +101,9 @@
 
         <h2>Decrypt/Decode File</h2>
         <p>Choose a file containing a beatnik poem to decrypt. As mentioned above, nothing you upload
-        actually goes to our servers. It gets decrypted and base64 decoded in your browser. It will ask
-        you to save a file to your computer. This should have the extension you'd expect from whatever
-        your original file was before being encrypted.</p>
+            actually goes to our servers. It gets decrypted and base64 decoded in your browser. It will ask
+            you to save a file to your computer. This should have the extension you'd expect from whatever
+            your original file was before being encrypted.</p>
         <div id="download_as_file">
             <label for="d-file-type">
                 Target MIME File Type:
@@ -109,17 +116,17 @@
 
     <h2 id="more-information">More Information</h2>
     <p>What words are we using to generate the poems? Well, when the page is
-    loaded, we make a call to <a href="http://www.randomtext.me" target="_blank">RandomText.me</a>'s
-    gibberish API, which gives us back a string full of nonsense. We parse the words out of the
-    nonsense, give them a Scrabble score, and attempt to add them to our database of word/score
-    pairs. If the word is not already in the database, it gets added. You can actually see in the
-    console how many words are added each time the page is loaded.</p>
+        loaded, we make a call to <a href="http://www.randomtext.me" target="_blank">RandomText.me</a>'s
+        gibberish API, which gives us back a string full of nonsense. We parse the words out of the
+        nonsense, give them a Scrabble score, and attempt to add them to our database of word/score
+        pairs. If the word is not already in the database, it gets added. You can actually see in the
+        console how many words are added each time the page is loaded.</p>
     <p>In parallel to the API call to add the words, we're also making a request from our own
-    database to get all word/score pairs. As of right now, there are
+        database to get all word/score pairs. As of right now, there are
         <span id="word-count">(querying...)</span> different words to choose from. (Refresh the page,
-    and you'll likely see that number go up!)</p>
+        and you'll likely see that number go up!)</p>
     <p>Since apparently there are slight variations in scrabble scoring depending on
-    what year the game was made, what follows is the letter scoring that we used:</p>
+        what year the game was made, what follows is the letter scoring that we used:</p>
     <ul id="letter-scoring1"></ul>
     <ul id="letter-scoring2"></ul>
     <ul id="letter-scoring3"></ul>
@@ -131,9 +138,9 @@
         <h3>Authors:</h3>
         <p>Nathan Karasch (<a href="http://krashdev.com/" target="_blank">krashdev.com</a>)<br></p>
         <p>Charlie Steenhagen (<a href="http://www.stonestreetsoftware.com/"
-                               target="_blank">www.stonestreetsoftware.com</a>)</p>
+                                  target="_blank">www.stonestreetsoftware.com</a>)</p>
         <p>Interpreter written by the <a href="http://www.club.cc.cmu.edu/" target="_blank">
-        Carnegie Mellon Computer Club</a>.</p>
+            Carnegie Mellon Computer Club</a>.</p>
     </footer>
 
 </div>

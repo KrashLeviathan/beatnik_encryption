@@ -41,7 +41,7 @@
         and press <b>Stir my soul!</b></p>
 
     <form id="encoder-form">
-        <p><a href="#">Clear</a></p>                           <!--####################   TODO   ####################-->
+        <p><span class="clear" id="clear_encoder_form">Clear</span></p>
         <label>
             <textarea rows="8" cols="50" name="encoder-text" form="encoder-form"
                       id="encoder-text" placeholder="Enter Text Here..."></textarea>
@@ -53,7 +53,7 @@
         <input type="file" id="encoded_file" name="file" value="Encode File" autocomplete="off">
     </div>
     <h2 id="encryption-results">Encryption Results</h2>
-    <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span></p>    <!--####################   TODO   ####################-->
+    <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span></p>
     <div id="encoder-results">
         <p id="encoded-p"></p>
     </div>
@@ -67,7 +67,7 @@
         program <a href="https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages#Beatnik" target="_blank">Here</a></p>
 
     <form id="decoder-form" autocomplete="off">
-        <p><a href="#">Clear</a></p>                           <!--####################   TODO   ####################-->
+        <p><span class="clear" id="clear_decoder_form">Clear</span></p>
         <label>
             <textarea rows="8" cols="50" name="decoder-text" form="decoder-form" id="decoder-text" placeholder="Enter beatnik poem here..." value=""></textarea>
         </label><br>
@@ -82,7 +82,7 @@
     <p>A status of "Stopped" indicates the poem was fully interpretted with no errors.
         Errors reported by the interpreter indicated there is a problem with the Beatnik poem.
         The results below have been decrypted, but have not yet been base64-decoded.</p>
-    <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear" id="clear_decoder">Clear</span></p>    <!--####################   TODO   ####################-->
+    <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear" id="clear_decoder">Clear</span></p>
     <textarea id="decoder-results" autocomplete="off"></textarea>
 
 
@@ -153,8 +153,14 @@
     $('#clear_decoder').click(function(){
         $('#decoder-results').val('');
     });
+    $('#clear_decoder_form').click(function(){
+        $('#decoder-text').val('');
+    });
     $('#clear_encoder').click(function(){
-        $('#encoded-p').html(' ');
+        $('#encoded-p').html('');
+    });
+    $('#clear_encoder_form').click(function(){
+        $('#encoder-text').val('');
     });
 </script>
 </html>

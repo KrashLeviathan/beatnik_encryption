@@ -48,10 +48,6 @@
         </label><br>
         <input type="submit" value="Stir my soul!">
     </form>
-    <div id="form_upload_file">
-        <h3>Or upload a file to base64 encode and encrypt it.</h3>
-        <input type="file" id="encoded_file" name="file" value="Encode File" autocomplete="off">
-    </div>
     <h2 id="encryption-results">Encryption Results</h2>
     <p><span class="btn" data-clipboard-target="#encoded-p">Copy All</span> | <span class="clear" id="clear_encoder">Clear</span></p>
     <div id="encoder-results">
@@ -85,9 +81,25 @@
     <p><span class="btn" data-clipboard-target="#decoder-results">Copy All</span> | <span class="clear" id="clear_decoder">Clear</span></p>
     <textarea id="decoder-results" autocomplete="off"></textarea>
 
+    <div id="file-support">
+        <h2>Encode/Encrypt File</h2>
+        <p>Choose a file to encrypt in Beatnik! A small file is recommended, as all the processing is
+        happening in Javascript on YOUR computer! Nothing you upload actually goes to our servers -- it's
+        base64 encoded and beatnik encrypted in your browser. It will ask you to save a file to your
+        computer. This is the beatnik encrypted poem form, and can be saved as a .txt file.</p>
+        <div id="form_upload_file">
+            <input type="file" id="encode_file" name="e_file" value="Encrypt File" autocomplete="off">
+        </div>
 
-    <div id="download_as_file">
-        <button class="submit" id="download_file">Decode and Download As File</button>
+        <h2>Decrypt/Decode File</h2>
+        <p>Choose a file containing a beatnik poem to decrypt. As mentioned above, nothing you upload
+        actually goes to our servers. It gets decrypted and base64 decoded in your browser. It will ask
+        you to save a file to your computer. This should have the extension you'd expect from whatever
+        your original file was before being encrypted.</p>
+        <div id="download_as_file">
+            <input type="file" id="decode_file" name="d_file" value="Decrypt File" autocomplete="off">
+            <!--<button class="submit" id="download_file">Decode and Download As File</button>-->
+        </div>
     </div>
 
     <h2 id="more-information">More Information</h2>
@@ -123,44 +135,4 @@
 </body>
 
 <script src="/js/vendor/clipboard.min.js"></script>
-<script>
-
-    get_words_api();
-    new Clipboard('.btn');
-
-    var handleFileSelect = function(evt) {
-        var files = evt.target.files;
-        var file = files[0];
-
-        if (files && file) {
-            var reader = new FileReader();
-
-            reader.onload = function(readerEvt) {
-                var binaryString = readerEvt.target.result;
-                encrypted_words = beatnikify(btoa(binaryString));
-                $('#encoded-p').html(encrypted_words);
-            };
-
-            reader.readAsBinaryString(file);
-        }
-    };
-
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        document.getElementById('encoded_file').addEventListener('change', handleFileSelect, false);
-    } else {
-        alert('The File APIs are not fully supported in this browser.');
-    }
-    $('#clear_decoder').click(function(){
-        $('#decoder-results').val('');
-    });
-    $('#clear_decoder_form').click(function(){
-        $('#decoder-text').val('');
-    });
-    $('#clear_encoder').click(function(){
-        $('#encoded-p').html('');
-    });
-    $('#clear_encoder_form').click(function(){
-        $('#encoder-text').val('');
-    });
-</script>
 </html>

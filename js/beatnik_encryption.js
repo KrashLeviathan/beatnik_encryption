@@ -53,7 +53,7 @@ function get_words_api(){
         success: function(json){
             var p = json.text_out;
             var words = $(p).text();
-            var words_array = words.replace('.', '').split(' ');
+            var words_array = words.replace(/\. ?/g, ' ').split(' ');
             var words1 = [];
             var words2 = [];
             var words3 = [];
@@ -73,7 +73,6 @@ function get_words_api(){
             addWordsToDB(words2);
             addWordsToDB(words3);
             addWordsToDB(words4);
-
         }
     });
 }
@@ -345,40 +344,32 @@ function splitCharValue(value) {
     }
 }
 
+function encryptFormData(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    window.location.href = "#encryption-results";
+    if (!wordsLoaded) {
+        alert("Like, wait for the words to be loaded man!");
+        return;
+    }
+    var str = $('#encoder-text').val();
+    var encrypted = beatnikify(str);
+    $('#encoded-p').html(encrypted)
+}
 
-
-
-$(document).ready(function() {
-    $('#encoder-form').submit(function(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        window.location.href = "#encryption-results";
-        if (!wordsLoaded) {
-            alert("Like, wait for the words to be loaded man!");
-            return;
-        }
-        var str = $('#encoder-text').val();
-        var encrypted = beatnikify(str);
-        $('#encoded-p').html(encrypted)
-    });
+function decryptFormData(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
 
     // I don't think these can use jQuery because the interpreter doesn't use jQuery.
     var interpConsole = document.getElementById('decoder-results');
     var interpStatus  = document.getElementById('interp-status');
 
-    $('#decoder-form').submit(function(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        window.location.href = "#decryption-results";
-        var interpScript  = $('#decoder-text').val();
-        beatnik_console_eval(interpScript, interpConsole, interpStatus);
-
-        //TODO add this to the decoder html at the end of the </p> tag
-        //<button class="btn" data-clipboard-target="#decoder-results"><img src="/images/clippy.png" alt="Copy to clipboard"></button>
-    });
-
-    displayLetterScoring();
-});
+    window.location.href = "#decryption-results";
+    interpStatus.value = '';
+    var interpScript  = $('#decoder-text').val();
+    beatnik_console_eval(interpScript, interpConsole, interpStatus);
+}
 
 function displayLetterScoring() {
     var lengthOfSection = Math.floor(scrabble_scores.length / 3) + 1;
@@ -391,3 +382,99 @@ function displayLetterScoring() {
         $('#letter-scoring' + (j+1)).html(innerHtmlItems.join(''));
     }
 }
+
+// Function to download data to a file
+// http://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+function download(data, filename, type) {
+    var a = document.createElement("a"),
+      file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+}
+
+function handleEncryptFile(evt) {
+    var files = evt.target.files;
+    var file = files[0];
+    if (files && file) {
+        var reader = new FileReader();
+        reader.onload = function(readerEvt) {
+            var binaryString = readerEvt.target.result;
+            var encrypted_words = beatnikify(btoa(binaryString)).replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
+            download(encrypted_words, file.name + '.txt', 'text/plain');
+        };
+        reader.readAsBinaryString(file);
+    } else {
+        alert('Failed to load file.');
+    }
+}
+
+function handleDecryptFile(evt) {
+    var files = evt.target.files;
+    var file = files[0];
+    if (files && file) {
+        var reader = new FileReader();
+        reader.onload = function(readerEvt) {
+            var textString = readerEvt.target.result;
+            // TODO
+//                var encrypted_words = beatnikify(btoa(binaryString)).replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
+//                download(encrypted_words, file.name + '.txt', 'text/plain');
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Failed to load file.');
+    }
+}
+
+function initializeClearButtons() {
+    $('#clear_decoder').click(function(){
+        $('#decoder-results').val('');
+        $('#interp-status').val('');
+    });
+    $('#clear_decoder_form').click(function(){
+        $('#decoder-text').val('');
+    });
+    $('#clear_encoder').click(function(){
+        $('#encoded-p').html('');
+    });
+    $('#clear_encoder_form').click(function(){
+        $('#encoder-text').val('');
+    });
+}
+
+$(document).ready(function() {
+    // Fetch words
+    get_words_api();
+
+    // Setup the "Copy All" clipboard buttons
+    new Clipboard('.btn');
+
+    // Handle encryption/decryption form submissions
+    $('#encoder-form').submit(encryptFormData);
+    $('#decoder-form').submit(decryptFormData);
+
+    // Handle file uploads for encryption/decryption
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        document.getElementById('encode_file').addEventListener('change', handleEncryptFile, false);
+        document.getElementById('decode_file').addEventListener('change', handleDecryptFile, false);
+    } else {
+        $('#file-support').html('<h2>File Encryption/Decryption</h2>' +
+          '<p>The File APIs are not fully supported in this browser.</p>');
+    }
+
+    // Handle the clearing of form data with the "Clear" buttons
+    initializeClearButtons();
+
+    // Display the letter scoring lists
+    displayLetterScoring();
+});

@@ -39,9 +39,8 @@ function getWordsFromDB() {
     });
 }
 
-// Called at the bottom of index.html when the page loads. This fetches random words from
-// the randomtext.me api to populate our own database. The more times the page is loaded,
-// the more verbose the encrypter becomes!
+// This fetches random words from the randomtext.me api to populate our own database.
+// The more times the page is loaded, the more verbose the encrypter becomes!
 function get_words_api() {
     // Get all words that have already been entered in the DB
     getWordsFromDB();
@@ -318,22 +317,19 @@ function pushCharValueToStack(charCode) {
 // Returns an array of ints that add up to the value. If value is <=25, then it just returns the value in
 // an array by itself. Otherwise, it splits the value.
 function splitCharValue(value) {
-    if (value > scoreWordMap.maxScore) {
-        var values = [];
-        while (value > scoreWordMap.maxScore) {
-            var subtracted = getRandomInt(1, scoreWordMap.maxScore + 1);
-            values.push(subtracted);
-            value -= subtracted;
-        }
-        if (value > 0) {
-            values.push(value);
-        }
-        return values;
-    } else if (value < 1) {
-        throw new Error("Value passed to splitCharValue() cannot be less that 1!");
-    } else {
-        return [value];
+    if (value < 1) {
+        throw new Error("Value passed to splitCharValue() cannot be less than 1!");
     }
+    var values = [];
+    while (value > scoreWordMap.maxScore) {
+        var subtracted = getRandomInt(1, scoreWordMap.maxScore + 1);
+        values.push(subtracted);
+        value -= subtracted;
+    }
+    if (value > 0) {
+        values.push(value);
+    }
+    return values;
 }
 
 function encryptFormData(event) {

@@ -391,7 +391,20 @@ function download(data, filename, type) {
     }
 }
 
+var experimentalEnabled = false;
+function enableExperimental() {
+    experimentalEnabled = true;
+    console.log("Experimental features have been enabled! Please note that the file encryption/decryption " +
+      "has proven unstable due to the file size inflation. The resulting file will be two to three orders " +
+      "of magnitude larger than the input file. In addition, due to the increased size of the files, it can " +
+      "cause the browser to freeze unless using a VERY small (<1kb) file because the run time is so long.");
+    $('#file-support').show();
+}
+
 function handleEncryptFile(evt) {
+    if (!experimentalEnabled) {
+        return;
+    }
     var files = evt.target.files;
     var file = files[0];
     if (files && file) {
@@ -410,6 +423,9 @@ function handleEncryptFile(evt) {
 }
 
 function handleDecryptFile(evt) {
+    if (!experimentalEnabled) {
+        return;
+    }
     var files = evt.target.files;
     var file = files[0];
     if (files && file) {
